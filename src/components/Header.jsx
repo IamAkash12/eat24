@@ -2,16 +2,17 @@ import React from 'react'
 import Group1 from './img/logo.png';
 import Avatar from './img/avatar.png';
 import {MdShoppingBasket} from 'react-icons/md';
-
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <header className="fixer z-50 w-screen p-6 px-16 ">
       {/* desktop & tablet */}
       <div className=" hidden md:flex w-full h-full items-center justify-between">
-        <div className='flex items-center gap-2'>
+        <Link to={"/"} className='flex items-center gap-2'>
           <img src={Group1} className="w-9 object-cover" alt='Logo' />
           <p className="text-headingColor text-x1 font-semibold">Eat 24</p>
-        </div>
+        </Link>
         <div className='flex items-center gap-8'>
         <ul className='flex items-center gap-8 '>
           <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out">Home</li>
@@ -26,7 +27,7 @@ const Header = () => {
           </div>
         </div>
         
-      <img src={Avatar} className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl" alt='Profile'/>
+      <motion.img whileTap={{scale:0.6}} src={Avatar} className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer"  alt='Profile'/>
 
 
         </div>
