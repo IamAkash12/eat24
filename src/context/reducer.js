@@ -1,6 +1,6 @@
 export const actionType = {
-    SET_USER: 'SE_USER'
-}
+    SET_USER: 'SET_USER',
+};
 
 const reducer = (state, action) => {
      console.log(action);
