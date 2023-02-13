@@ -23,6 +23,7 @@ const[{user},dispatch]= useStateValue()
       type: actionType.SET_USER,
       user: providerData[0],
     });
+    localStorage.setItem('user',JSON.stringify(providerData[0]));
   };
 
 
