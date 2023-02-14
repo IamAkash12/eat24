@@ -6,16 +6,16 @@ import { Header, MainContainer , CreateContainer } from './components';
 const App = () => {
   return (
     <AnimatePresence mode='wait'>
-       <div className="w-screen h-auto flex flex-col bg-primary">
-      <Header/>
+             <div className="w-screen h-auto flex flex-col bg-primary">
+        <Header />
 
-      <main className='mt-24  p-8 w-full'>
+        <main className="mt-1 md:mt-2 px-4 md:px-16 py-4 w-full">
           <Routes>
-            <Route path="/" element ={<MainContainer/>} />
-            <Route path="/createItem" element={<CreateContainer/>} />
+            <Route path="/*" element={<MainContainer />} />
+            <Route path="/createItem" element={<CreateContainer />} />
           </Routes>
-      </main>
-    </div>
+        </main>
+      </div>
     </AnimatePresence>
    
   )
