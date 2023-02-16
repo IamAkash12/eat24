@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { MdShoppingBasket, MdAdd, MdLogout } from 'react-icons/md';
-import Group1 from './img/logo.png';
-import Avatar from './img/avatar.png';
+import Group1 from '../img/logo.png';
+import Avatar from '../img/avatar.png';
+import eat24 from '../img/Eat24.png';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from '../firebase.config';
 import { motion } from 'framer-motion';
@@ -49,8 +50,8 @@ const Header = () => {
       {/* desktop & tablet */}
       <div className=" hidden md:flex w-full h-full items-center justify-between">
         <Link to={"/"} className='flex items-center gap-2'>
-          <img src={Group1} className="w-9 object-cover" alt='Logo' />
-          <p className="text-headingColor text-x1 font-semibold">Eat 24</p>
+          <img src={eat24} className="w-cover h-14 object-cover" alt='Logo' />
+          <p className="text-headingColor text-x1 font-semibold"></p>
         </Link>
         <div className='flex items-center gap-8'>
           <motion.ul
@@ -110,9 +111,9 @@ const Header = () => {
             </div>
           </div>
 
-          <Link to={"/"} className='flex items-center gap-2'>
-          <img src={Group1} className="w-9 object-cover" alt='Logo' />
-          <p className="text-headingColor text-x1 font-semibold">Eat 24</p>
+          <Link to={"/"} className='flex items-center gap-2 '>
+          <img src={eat24} className="w-cover h-12 object-cover " alt='Logo' />
+          <p className="text-headingColor text-x1 font-semibold"></p>
         </Link>
 
         <div className="relative">
