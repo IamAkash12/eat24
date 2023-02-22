@@ -18,7 +18,10 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase.config";
 import { saveItem } from "../utils/FirebaseFunction";
-// import { actionType } from "../context/reducer";
+import { actionType } from "../context/reducer";
+import { getAllFoodItems } from '../utils/FirebaseFunction'
+import { useStateValue } from '../context/StateProvider';
+
 // import { useStateValue } from "../context/StateProvider";
 
 
@@ -33,6 +36,7 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const[{foodItems}, dispatch]= useStateValue();
 
 const uploadImage = (e) =>{
  setIsLoading(true);
@@ -126,7 +130,9 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
         setIsLoading(false);
       }, 4000);
     }
+    fetchData();
   };
+
 
   const clearData = () => {
     setTitle("");
@@ -134,6 +140,15 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     setCalories("");
     setPrice("");
     setCategory("Select Category");
+  };
+
+  const fetchData= async () =>{
+    await getAllFoodItems().then((data)=>{
+      dispatch({
+        type:actionType.SET_FOOD_ITEMS,
+        foodItems:data
+      })
+    });
   };
 
 
