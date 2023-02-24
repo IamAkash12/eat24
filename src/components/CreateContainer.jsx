@@ -1,6 +1,5 @@
-import React,{useState} from 'react';
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Loader from "./Loader";
 
 import {
   MdFastfood,
@@ -10,6 +9,7 @@ import {
   MdAttachMoney,
 } from "react-icons/md";
 import { categories } from "../utils/data";
+import Loader from "./Loader";
 import {
   deleteObject,
   getDownloadURL,
@@ -17,14 +17,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../firebase.config";
-import { saveItem } from "../utils/FirebaseFunction";
+import { getAllFoodItems, saveItem } from "../utils/FirebaseFunction";
 import { actionType } from "../context/reducer";
-import { getAllFoodItems } from '../utils/FirebaseFunction'
-import { useStateValue } from '../context/StateProvider';
-
-// import { useStateValue } from "../context/StateProvider";
-
-
+import { useStateValue } from "../context/StateProvider";
 
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
@@ -36,12 +31,12 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const[{foodItems}, dispatch]= useStateValue();
+  const [{ foodItems }, dispatch] = useStateValue();
 
-const uploadImage = (e) =>{
- setIsLoading(true);
-const imageFile =e.target.files[0];
-const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
+  const uploadImage = (e) => {
+    setIsLoading(true);
+    const imageFile = e.target.files[0];
+    const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     uploadTask.on(
@@ -79,7 +74,8 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     setIsLoading(true);
     const deleteRef = ref(storage, imageAsset);
     deleteObject(deleteRef).then(() => {
-       setIsLoading(false);
+      setImageAsset(null);
+      setIsLoading(false);
       setFields(true);
       setMsg("Image deleted successfully 😊");
       setAlertStatus("success");
@@ -130,9 +126,9 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
         setIsLoading(false);
       }, 4000);
     }
+
     fetchData();
   };
-
 
   const clearData = () => {
     setTitle("");
@@ -142,20 +138,19 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     setCategory("Select Category");
   };
 
-  const fetchData= async () =>{
-    await getAllFoodItems().then((data)=>{
+  const fetchData = async () => {
+    await getAllFoodItems().then((data) => {
       dispatch({
-        type:actionType.SET_FOOD_ITEMS,
-        foodItems:data
-      })
+        type: actionType.SET_FOOD_ITEMS,
+        foodItems: data,
+      });
     });
   };
 
-
   return (
-    <div className='w-full min-h-screen flex items-center justify-center'>
-      <div className='w-[90%] md:w-[75%] border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4'>
-      {fields && (
+    <div className="w-full min-h-screen flex items-center justify-center">
+      <div className="w-[90%] md:w-[50%] border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
+        {fields && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -170,7 +165,7 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
           </motion.p>
         )}
 
-<div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
+        <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
           <MdFastfood className="text-xl text-gray-700" />
           <input
             type="text"
@@ -203,7 +198,7 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
           </select>
         </div>
 
-          <div className='group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-225 md:h-420 cursor-pointer rounded-lg '>
+        <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-225 md:h-340 cursor-pointer rounded-lg">
           {isLoading ? (
             <Loader />
           ) : (
@@ -226,7 +221,7 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
                     />
                   </label>
                 </>
-              ): (
+              ) : (
                 <>
                   <div className="relative h-full">
                     <img
@@ -247,10 +242,11 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
             </>
           )}
         </div>
-        <div className='="w-full flex flex-col md:flex-row items-center gap-3'>
-          <div className='w-full py-2 border-b border-gray-300 flex items-center gap-2'>
-          <MdFoodBank className='text-gray-700 text-2xl'/>
-          <input
+
+        <div className="w-full flex flex-col md:flex-row items-center gap-3">
+          <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
+            <MdFoodBank className="text-gray-700 text-2xl" />
+            <input
               type="text"
               required
               value={calories}
@@ -263,7 +259,7 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
             <MdAttachMoney className="text-gray-700 text-2xl" />
             <input
-              type="number"
+              type="text"
               required
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -286,6 +282,5 @@ const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
     </div>
   );
 };
-
 
 export default CreateContainer;
