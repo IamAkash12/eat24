@@ -14,7 +14,7 @@ import { useStateValue } from '../context/StateProvider';
 const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
-  const [{ user }, dispatch] = useStateValue()
+  const [{ user,cartShow,cartItems }, dispatch] = useStateValue()
 
   const [isMenu,setIsMenu] = useState(false);
 
@@ -43,7 +43,12 @@ const Header = () => {
       user:null
     })
   }
-
+ const showCart = () =>{
+  dispatch({
+    type: actionType.SET_CART_SHOW,
+    cartShow: !cartShow,
+  });
+ }
 
   return (
     <header className="fixer z-50 w-screen p-3 px-4 md:p-6 md:px-16 bg-primary ">
@@ -64,11 +69,11 @@ const Header = () => {
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">About Us</li>
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">Service</li>
           </motion.ul>
-          <div className='relative flex items-center justify-center'>
+          <div className='relative flex items-center justify-center' onClick={showCart}>
             <MdShoppingBasket className='text-textColor text-2xl cursor-pointer' />
-            <div className=' absolute -top-3.5 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-              <p className='text-xs text-white font-semibold'>2</p>
-            </div>
+            {cartItems && cartItems.length >0 && ( <div className=' absolute -top-3.5 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
+              <p className='text-xs text-white font-semibold'>{cartItems.length}</p>
+            </div>)}
           </div>
           <div className="relative">
             <motion.img
@@ -104,11 +109,11 @@ const Header = () => {
       <div className="flex item-center justify-between md:hidden w-full h-full">
       
 
-        <div className='relative flex items-center justify-center'>
+        <div className='relative flex items-center justify-center' onClick={showCart}>
             <MdShoppingBasket className='text-textColor text-2xl cursor-pointer' />
-            <div className=' absolute -top-0.5 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-              <p className='text-xs text-white font-semibold'>2</p>
-            </div>
+            {cartItems && cartItems.length >0 && ( <div className=' absolute -top-3.5 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
+              <p className='text-xs text-white font-semibold'>{cartItems.length}</p>
+            </div>)}
           </div>
 
           <Link to={"/"} className='flex items-center gap-2 '>
